@@ -89,6 +89,27 @@ EOF
 }
 
 
+profile_delete() {
+    PROFILE="$1"
+
+    if [ -e "/etc/2backup/profiles/$PROFILE" ]; then
+        read -p "Do you really want to delete profile '$PROFILE'? [y/N] " ASK
+
+        if [[ "$ASK" == "y" || "$ASK" == "Y" ]]; then
+            rm /etc/2backup/profiles/$PROFILE
+            echo "Profile '$PROFILE' as been deleted."
+            exit
+        else
+            echo "Deletion aborted."
+            exit
+        fi
+    else
+        >&2 echo "Profile '$PROFILE' do not exist!"
+        exit 1
+    fi
+}
+
+
 main() {
     echo
 
