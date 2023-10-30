@@ -110,6 +110,26 @@ profile_delete() {
 }
 
 
+profile_show() {
+    PROFILE="$1"
+
+    if [ ! -e "/etc/2backup/profiles/$PROFILE" ]; then
+        >&2 echo "Profile '$PROFILE' do not exist!"
+        exit 1
+    fi
+
+    source /etc/2backup/profiles/$PROFILE
+
+    echo "Affected subvolume(s): ${SUBV[@]}"
+    echo "Max hourly snapshots: $TIMELINE_LIMIT_HOURLY"
+    echo "Max daily snapshots: $TIMELINE_LIMIT_DAILY"
+    echo "Max weekly snapshots: $TIMELINE_LIMIT_WEEKLY"
+    echo "Max mounthly snapshots: $TIMELINE_LIMIT_MONTHLY"
+    echo "Max yearly snapshots: $TIMELINE_LIMIT_YEARLY"
+    exit
+}
+
+
 main() {
     echo
 
