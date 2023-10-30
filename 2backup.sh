@@ -72,6 +72,7 @@ profile_create() {
         PROFILE="$1"
         cat > /etc/2backup/profiles/$PROFILE << "EOF"
 SUBV=("@default1" "@default2")
+SUBV_MNTPT=("/default1" "/default1/default2")
 
 TIMELINE_LIMIT_HOURLY="0"
 TIMELINE_LIMIT_DAILY="0"
@@ -121,6 +122,7 @@ profile_show() {
     source /etc/2backup/profiles/$PROFILE
 
     echo "Affected subvolume(s): ${SUBV[@]}"
+    echo "Subvolume(s) mountpoint: {SUBV_MNTPT[@]}"
     echo "Max hourly snapshots: $TIMELINE_LIMIT_HOURLY"
     echo "Max daily snapshots: $TIMELINE_LIMIT_DAILY"
     echo "Max weekly snapshots: $TIMELINE_LIMIT_WEEKLY"
