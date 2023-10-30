@@ -20,7 +20,6 @@
 
 usage() {
 cat << EOF
-
 2backup  Copyright (C) 2023  Babilinx
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
@@ -62,10 +61,16 @@ EOF
 }
 
 
+init() {
+    [ ! -d "/etc/2backup" ] && mkdir /etc/2backup
+    [ ! -d "/etc/2backup/profiles" ] && mkdir /etc/2backup/profiles
+}
+
+
 profile_create() {
     if [[ ! "$1" == "" ]]; then
         PROFILE="$1"
-        cat > $PROFILE << "EOF"
+        cat > /etc/2backup/profiles/$PROFILE << "EOF"
 SUBV=("@default1" "@default2")
 
 TIMELINE_LIMIT_HOURLY="0"
@@ -210,4 +215,5 @@ main() {
 }
 
 ARGS="$@"
+init
 main $ARGS
