@@ -195,136 +195,134 @@ EOF
 }
 
 
-main() {
-    echo
+# Main
 
-    for i in "$@"; do
-        case $i in
+init
 
-            profile)
-                OPTION="profile"
-                shift
-                ;;
+echo
 
-            snapshot)
-                OPTION="snapshot"
-                shift
-                ;;
+for i in "$@"; do
+    case $i in
 
-            rollback)
-                OPTION="rollback"
-                OBJECT="$2"
-                shift; shift
-                ;;
+        profile)
+            OPTION="profile"
+            shift
+            ;;
 
-            create)
-                create=true
-                OBJECT="$2"
-                shift; shift
-                ;;
+        snapshot)
+            OPTION="snapshot"
+            shift
+            ;;
 
-            delete)
-                delete=true
-                OBJECT="$2"
-                shift; shift
-                ;;
+        rollback)
+            OPTION="rollback"
+            OBJECT="$2"
+            shift; shift
+            ;;
 
-            list)
-                list=true
-                shift
-                ;;
+        create)
+            create=true
+            OBJECT="$2"
+            shift; shift
+            ;;
 
-            show)
-                show=true
-                OBJECT="$2"
-                shift; shift
-                ;;
+        delete)
+            delete=true
+            OBJECT="$2"
+            shift; shift
+            ;;
 
-            mount)
-                mount=true
-                OBJECT="$2"
-                shift; shift
-                ;;
+        list)
+            list=true
+            shift
+            ;;
 
-             umount)
-                umount=true
-                OBJECT="$2"
-                shift; shift
-                ;;
+        show)
+            show=true
+            OBJECT="$2"
+            shift; shift
+            ;;
 
-            -p)
-                PROFILE="$2"
-                shift; shift
-                ;;
+        mount)
+            mount=true
+            OBJECT="$2"
+            shift; shift
+            ;;
 
-            -m)
-                MESSAGE="$2"
-                shift; shift
-                ;;
+         umount)
+            umount=true
+            OBJECT="$2"
+            shift; shift
+            ;;
 
-            -h|--help)
-                usage
-                exit
-                ;;
+        -p)
+            PROFILE="$2"
+            shift; shift
+            ;;
+
+        -m)
+            MESSAGE="$2"
+            echo $MESSAGE
+            shift; shift
+            ;;
+
+        -h|--help)
+            usage
+            exit
+            ;;
 
 #            *)
 #                #>&2 echo "Unknown option $1"
 #                #exit 1
 #                ;;
 
-        esac
-    done
-
-    case $OPTION in
-
-        profile)
-            if [[ "$create" == true ]]; then
-                profile_create $OBJECT
-            elif [[ "$delete" == true ]]; then
-                profile_delete $OBJECT
-            elif [[ "$show" == true ]]; then
-                profile_show $OBJECT
-            elif [[ "$list" == true ]]; then
-                profile_list
-            else
-                >&2 echo "Unknown argument(s): $ARGS"
-                >&2 echo "See -h|--help."
-                exit 1
-            fi
-            ;;
-
-        snapshot)
-            if [[ "$create" == true ]]; then
-                snapshot_create $OBJECT $MESSAGE
-            elif [[ "$delete" == true ]]; then
-                snapshot_delete $OBJECT $PROFILE
-            elif [[ "$show" == true ]]; then
-                snapshot_show $OBJECT $PROFILE
-            elif [[ "$list" == true ]]; then
-                snapshot_list $PROFILE
-            elif [[ "$mount" == true ]]; then
-                snapshot_mount $OBJECT $PROFILE
-            elif [[ "$umount" == true ]]; then
-                snapshot_umount $OBJECT $PROFILE
-            else
-                >&2 echo "Unknown argument(s): $ARGS"
-                >&2 echo "See -h|--help."
-                exit 1
-            fi
-            ;;
-
-        rollback)
-            rollback $OPTIONS $PROFILE
-            ;;
-
-        *)
-            >&2 echo "Unknown option: '$ARGS'"
-            exit 1
-            ;;
     esac
+done
 
-}
+case $OPTION in
 
-ARGS="$@"
-init
-main $ARGS
+    profile)
+        if [[ "$create" == true ]]; then
+            profile_create $OBJECT
+        elif [[ "$delete" == true ]]; then
+            profile_delete $OBJECT
+        elif [[ "$show" == true ]]; then
+            profile_show $OBJECT
+        elif [[ "$list" == true ]]; then
+            profile_list
+        else
+            >&2 echo "Unknown argument(s): $ARGS"
+            >&2 echo "See -h|--help."
+            exit 1
+        fi
+        ;;
+
+    snapshot)
+        if [[ "$create" == true ]]; then
+            snapshot_create $OBJECT \"$MESSAGE\"
+        elif [[ "$delete" == true ]]; then
+            snapshot_delete $OBJECT $PROFILE
+        elif [[ "$show" == true ]]; then
+            snapshot_show $OBJECT $PROFILE
+        elif [[ "$list" == true ]]; then
+            snapshot_list $PROFILE
+        elif [[ "$mount" == true ]]; then
+            snapshot_mount $OBJECT $PROFILE
+        elif [[ "$umount" == true ]]; then
+            snapshot_umount $OBJECT $PROFILE
+        else
+            >&2 echo "Unknown argument(s): $ARGS"
+            >&2 echo "See -h|--help."
+            exit 1
+        fi
+        ;;
+
+    rollback)
+        rollback $OPTIONS $PROFILE
+        ;;
+
+    *)
+        >&2 echo "Unknown option: '$ARGS'"
+        exit 1
+        ;;
+esac
