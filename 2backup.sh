@@ -139,6 +139,59 @@ profile_list() {
 }
 
 
+snapshot_create() {
+    PROFILE="$1"
+
+    if [ ! -e "/etc/2backup/profiles/$PROFILE" ]; then
+        >&2 echo "Profile '$PROFILE' do not exist!"
+        exit 1
+    fi
+
+    source /etc/2backup/profiles/$PROFILE
+
+    if [[ ! "${#SUBV[@]}" == "${#SUBV_MNTPT[@]}" ]]; then
+        >&2 echo "There are error(s) in '$PROFILE' configuration file!"
+        >&2 echo "The number of subvolumes affected to it is different than the number of mountpoints!"
+        >&2 echo "${#SUBV[@]} and ${#SUBV_MNTPT[@]}"
+        exit 1
+    fi
+
+    if [[ "$GREATEST_SUBV_ID" == "" ]]; then
+        NUMBER=1
+        echo "GREATEST_SUBV_ID=1" >> /etc/2backup/profiles/$PROFILE
+    else
+        NUMBER=$(($GREATEST_SUBV_ID+1))
+        sed -i "s/GREATEST_SUBV_ID=.*/GREATED_SUBV_ID=${NUMBER}/g" /etc/2backup/profiles/$PROFILE
+    fi
+
+    if [[ ! "$2" == "" ]]; then
+        DESCRIPTION="$2"
+    else
+        if [[ $EDITOR == "" ]]; then
+            nano "/tmp/2backup_snapshot_description-$NUMBER"
+        else
+            $EDITOR "/tmp/2backup_snapshot_description-$NUMBER"
+        fi
+
+        DESCRIPTION=$(cat "/tmp/2backup_snapshot_description-$NUMBER")
+    fi
+
+    TYPE="manual"
+    DATE="$(date)"
+
+    for i in $(seq 0 $(("${#SUBV[@]}"-1))); do
+        mkdir "${SUBV_MNTPT[$i]}/.snapshots/$NUMBER"
+        btrfs subvolume snapshot -r "${SUBV_MNTPT[$i]}" "${SUBV_MNTPT[$i]}/.snapshots/$NUMBER/snapshot"
+
+        cat << EOF > "${SUBV_MNTPT[$i]}/.snapshots/$NUMBER/infos"
+TYPE=${TYPE}
+DATE=${DATE}
+DESCRIPTION="${DESCRIPTION}"
+EOF
+    done
+}
+
+
 main() {
     echo
 
