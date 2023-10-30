@@ -185,7 +185,7 @@ snapshot_create() {
 
         cat << EOF > "${SUBV_MNTPT[$i]}/.snapshots/$NUMBER/infos"
 TYPE=${TYPE}
-DATE=${DATE}
+DATE="${DATE}"
 DESCRIPTION="${DESCRIPTION}"
 EOF
     done
