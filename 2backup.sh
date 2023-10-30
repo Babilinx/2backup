@@ -130,6 +130,13 @@ profile_show() {
 }
 
 
+profile_list() {
+    echo "List of profiles:"
+    ls /etc/2backup/profiles
+    exit
+}
+
+
 main() {
     echo
 
