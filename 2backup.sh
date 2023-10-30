@@ -161,7 +161,7 @@ snapshot_create() {
         echo "GREATEST_SUBV_ID=1" >> /etc/2backup/profiles/$PROFILE
     else
         NUMBER=$(($GREATEST_SUBV_ID+1))
-        sed -i "s/GREATEST_SUBV_ID=.*/GREATED_SUBV_ID=${NUMBER}/g" /etc/2backup/profiles/$PROFILE
+        sed -i "s/GREATEST_SUBV_ID=.*/GREATEST_SUBV_ID=${NUMBER}/g" /etc/2backup/profiles/$PROFILE
     fi
 
     if [[ ! "$2" == "" ]]; then
