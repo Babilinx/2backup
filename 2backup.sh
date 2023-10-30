@@ -37,7 +37,7 @@ Options:
       list                                     List all profiles.
       show <profile>                           Show infos of a profile.
 
-  snapshots                                    Interact with snapshots.
+  snapshot                                     Interact with snapshots.
     arguments:
       create <profile>                         Create a snapshot of a profile, with the description given after.
       create <profile> -m <description>        Create a snapshot of a profile with the giver description.
@@ -150,8 +150,8 @@ main() {
                 shift
                 ;;
 
-            subvolume)
-                OPTION="subvolume"
+            snapshot)
+                OPTION="snapshot"
                 shift
                 ;;
 
@@ -212,8 +212,8 @@ main() {
                 ;;
 
 #            *)
-#                >&2 echo "Unknown option $1"
-#                exit 1
+#                #>&2 echo "Unknown option $1"
+#                #exit 1
 #                ;;
 
         esac
@@ -239,7 +239,7 @@ main() {
 
         snapshot)
             if [[ "$create" == true ]]; then
-                snapshot_create $OBJECT $DESCRIPTION
+                snapshot_create $OBJECT $MESSAGE
             elif [[ "$delete" == true ]]; then
                 snapshot_delete $OBJECT $PROFILE
             elif [[ "$show" == true ]]; then
@@ -261,6 +261,10 @@ main() {
             rollback $OPTIONS $PROFILE
             ;;
 
+        *)
+            >&2 echo "Unknown option: '$ARGS'"
+            exit 1
+            ;;
     esac
 
 }
