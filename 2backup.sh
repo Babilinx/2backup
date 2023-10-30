@@ -79,6 +79,7 @@ TIMELINE_LIMIT_WEEKLY="0"
 TIMELINE_LIMIT_MONTHLY="0"
 TIMELINE_LIMIT_YEARLY="0"
 EOF
+        echo "Profile '$PROFILE' created. Configure it at '/etc/2backup/profiles/$PROFILE'."
         exit
 
     else
