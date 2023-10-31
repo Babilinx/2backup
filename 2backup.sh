@@ -196,6 +196,47 @@ EOF
 }
 
 
+snapshot_delete() {
+    set -e
+    if [[ "$2" == "" ]]; then
+        SNAPSHOT_HASH=$1
+    else
+        SNAPSHOT_ID=$1
+        PROFILE=$2
+    fi
+
+    TO_DELETE=("")
+
+    if [[ ! "$PROFILE" == "" ]]; then
+        source /etc/2backup/profiles/$PROFILE
+
+        for mountpoint in ${SUBV_MNTPT[@]}; do
+            TO_DELETE+=("$mountpoint/.snapshots/$SNAPSHOT_ID")
+        done
+
+    fi
+
+    TO_BE_DELETED=""
+    for mountpoint in ${TO_DELETE[@]}; do
+        TO_BE_DELETED+="'$mountpoint' "
+    done
+
+    read -p "Do you really want to delete these subvolumes: ${TO_BE_DELETED}? [y/N] " ASK
+
+    if [[ "$ASK" == "y" || "$ASK" == "Y" ]]; then
+        for path in ${TO_DELETE[@]}; do
+            echo "Deleting ${path}..."
+            btrfs subvolume delete $path/snapshot
+            rm $path/infos
+            rmdir $path
+        done
+        echo "Done."
+    else
+        echo "Deletion aborted."
+    fi
+}
+
+
 # Main
 
 init
