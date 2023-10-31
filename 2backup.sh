@@ -197,7 +197,6 @@ EOF
 
 
 snapshot_delete() {
-    set -e
     if [[ "$2" == "" ]]; then
         SNAPSHOT_HASH=$1
     else
@@ -320,6 +319,8 @@ for i in "$@"; do
 
     esac
 done
+
+set -e
 
 case $OPTION in
 
