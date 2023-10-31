@@ -1,5 +1,9 @@
 # 2backup (btrfs backup), a simple snapshots management and backup tool for btrfs
 
+## Note
+
+⚠️ The project is actually in active developpement, so things can change dramatically! If you test it now, I'm not responsible of anything that can go wrong on your computer!
+
 ## Goal
 
 The goal is to provide a simple - yet powerfull - snapshots management tool. It can create them periodically or manually, with description and metadata. Delete them automatically when they expire. Backup them to an external drive for backing-up data, because **snapshots are not backups**.
