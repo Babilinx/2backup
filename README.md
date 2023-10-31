@@ -20,6 +20,18 @@ Install it with `make`
 sudo make install
 ```
 
+## What's working?
+
+- [x] Profiles creation, suppression, listing and showing details
+- [x] Snapshots creation
+- [x] Snapshots suppresion (only profile one)
+- [ ] Specific snapshot deletion
+- [ ] Snapshots listing
+- [ ] Show snapshot infos
+- [ ] Snapshot mounting/unmonting
+- [ ] Rollback an entire profile
+- [ ] Rollback a specific snapshot
+
 ## Usage
 
 > Note: you can use `2backup` command as well as `bb` for faster use.
