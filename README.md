@@ -8,7 +8,7 @@ The goal is to provide a simple - yet powerfull - snapshots management tool. It 
 
 Clone the repository and get inside it
 ```
-git clone https://github.com/babilinx/2backup && cd 2backup
+git clone https://github.com/Babilinx/2backup && cd 2backup
 ```
 
 Install it with `make`
@@ -18,7 +18,7 @@ sudo make install
 
 ## Usage
 
-> Note: you can use `2backup` command as well as `bb` for faster use. Il can be disable inside the Makefile.
+> Note: you can use `2backup` command as well as `bb` for faster use.
 
 **All commands needs root rights** (except some but it's better with root anyways)
 
@@ -39,6 +39,8 @@ Profiles are specific for one (or more) subvolume(s). They contains rules about 
 
 # Affects only @, @var, @root and @boot subvolumes
 SUBV=("@" "@var" "@boot" "@root")
+# Mount points of each subvolume
+SUBV_MNTPT=("/" "/var" "/boot" "/root")
 
 TIMELINE_LIMIT_HOURLY="5"   # Keep 5 hourly snapshots
 TIMELINE_LIMIT_DAILY="7"    # Keep 7 daily snapshots
@@ -59,7 +61,7 @@ And edit the settings
 sudoedit /etc/2backup/profiles/<profile>
 ```
 
-> Note: `sudoedit` is a tool to edit files as root without doing `sudo <editor> <file>`. You can use any editor instead.
+> Note: `sudoedit` is a tool to edit files as root without doing `sudo <editor> <file>`. You can use any editor as root instead.
 
 #### Profile deletion
 
@@ -68,7 +70,7 @@ Just delete it
 2backup profile delete <profile>
 ```
 
-And say "yes" (or "no" if you want to keep it)
+And say "y" (or "n" if you want to keep it)
 
 #### Profile list
 
@@ -77,7 +79,7 @@ List them
 2backup profile list
 ```
 
-#### Get infos on one specific profile (useless?)
+#### Get infos on one specific profile
 
 Get the infos
 ```
@@ -108,14 +110,28 @@ And enter the description with your file editor
 
 #### Deleting a snapshot
 
+> Note: It can contain more than one snapshot!
+
 List snapshots
 ```
-2backup snapshots list -p <profile>
+2backup snapshot list -p <profile>
 ```
 
 And delete it
 ```
-2backup snapshot delete <snapshot ID | snapshot hash>
+2backup snapshot delete <snapshot ID> -p <profile>
+```
+
+#### Deleting a single snapshot
+
+Get his hash
+```
+2backup snapshot list
+```
+
+And delete it
+```
+2backup snapshot delete <snapshot hash>
 ```
 
 #### List all snapshots
@@ -136,7 +152,7 @@ List them
 
 Mount it
 ```
-2backup snapshot mount <snapshot ID | snapshot hash>
+2backup snapshot mount <snapshot hash>
 ```
 
 Access it
@@ -151,7 +167,15 @@ Unmount it
 #### Rollback an entire profile to a previous snapshot
 
 ```
-2backup rollback -p <profile> <meta-snapshot hash>
+2backup rollback <snapshot ID> -p <profile>
+```
+
+#### Rollback only one snapshot
+
+```
+2backup rollback <snapshot hash>
+```
+
 ## Updating
 
 Go inside 2backup repository, and execute
