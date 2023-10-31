@@ -189,7 +189,7 @@ DATE="${DATE}"
 DESCRIPTION="${DESCRIPTION}"
 SUBV_MNTPT="${SUBV_MNTPT[$i]}"
 EOF
-        SHASUM_RAW=$(echo "${SUBV_MNTPT[$i]}/.snapshots/$NUMBER/infos $(date --rfc-3339=ns)" | shasum)
+        SHASUM_RAW=$(echo "$(cat ${SUBV_MNTPT[$i]}/.snapshots/$NUMBER/infos) $(date --rfc-3339=ns)" | shasum)
         IFS=' ' read -r -a SHASUM <<< "$SHASUM_RAW"; unset IFS
         echo "SHASUM=$SHASUM" >> "${SUBV_MNTPT[$i]}/.snapshots/$NUMBER/infos"
     done
