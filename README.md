@@ -203,3 +203,44 @@ Get out the repo and delete it
 ```
 cd .. && rm -rf 2backup/
 ```
+
+## Help page
+
+```
+2backup  Copyright (C) 2023  Babilinx
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions; see 'https://www.gnu.org/licenses/gpl-3.0.en.html' for details.
+
+Usage:
+  2backup [options] [arguments]
+  bb [options] [arguments]
+
+Options:
+  profile                                      Interact with profiles.
+    arguments:
+      create <profile>                         Create a profile.
+      delete <profile>                         Delete a profile.
+      list                                     List all profiles.
+      show <profile>                           Show infos of a profile.
+
+  snapshot                                     Interact with snapshots.
+    arguments:
+      create <profile>                         Create a snapshot of a profile, with the description given after.
+      create <profile> -m <description>        Create a snapshot of a profile with the giver description.
+      delete <snapshot ID> -p <profile>        Delete a profile's snapshot (can contain more than one snapshot).
+      delete <snapshot hash>                   Delete a given snapshot.
+      list                                     List all snapshots.
+      list -p <profile>                        List all snapshots of a profile.
+      show <snapshot hash>                     Show infos on a snapshot.
+      show <snapshot ID> -p <profile>          Show infos on a snapshot of a profile.
+      mount <snapshot ID> -p <profile>         Mount a snapshot of a profile.
+      mount <snapshot hash>                    Mount a given snapshot.
+      umount <snapshot ID> -p <profile>        Unmount a snapshot of a profile.
+      umount <snapshot hash>                   Unmount a given snapshot.
+
+  rollback                                     Do rollback stuff.
+    arguments:
+      <snapshot hash>                          Rollback the given snapshot.
+      <snapshot ID> -p <profile>               Rollback a profile to the given snapshot.
+```
