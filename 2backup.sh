@@ -187,6 +187,7 @@ snapshot_create() {
 TYPE=${TYPE}
 DATE="${DATE}"
 DESCRIPTION="${DESCRIPTION}"
+SUBV_MNTPT="${SUBV_MNTPT[$i]}"
 EOF
         SHASUM_RAW=$(echo "${SUBV_MNTPT[$i]}/.snapshots/$NUMBER/infos $(date --rfc-3339=ns)" | shasum)
         IFS=' ' read -r -a SHASUM <<< "$SHASUM_RAW"; unset IFS
